@@ -1,2 +1,10 @@
-# I2CS_Ex3
-Pac-Man Project: Autonomous game logic, map navigation, and ghost avoidance using Graph Algorithms.
+# Ex3: Pac-Man & Graph Algorithms
+**Introduction to Computer Science | Ariel University**
+<br>
+**Student:** [Your Name] | **ID:** [Your ID]
+
+## 🚧 Work In Progress
+This repository hosts the solution for **Assignment 3 (Ex3)**: A comprehensive implementation of a **Pac-Man game** based on Object-Oriented Programming (OOP) principles and Graph Algorithms (BFS).
+
+**Current Status:** Initial setup and project initialization.
+*Full documentation, algorithms, and class descriptions will be added soon.*
