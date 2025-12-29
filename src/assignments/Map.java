@@ -31,46 +31,87 @@ public class Map implements Map2D {
 	}
 	@Override
 	public void init(int w, int h, int v) {
-		/////// add your code below ////////
-
-		///////////////////////////////////
+        if (w <= 0 || h <= 0) {
+            throw new IllegalArgumentException("Invalid width or height");
+        }
+		this._map = new int[w][h];
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                this._map[x][y] = v;
+            }
+        }
 	}
 	@Override
 	public void init(int[][] arr) {
-		/////// add your code below ///////
-
-		///////////////////////////////////
+        if (arr == null || arr.length == 0 || arr[0].length == 0 ) {
+            throw new IllegalArgumentException("Array is null or empty");
+        }
+        int w = arr.length;
+        int h = arr[0].length;
+        _map = new int[w][h];
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                this._map[x][y] = arr[x][y];
+            }
+        }
 	}
+
 	@Override
 	public int[][] getMap() {
 		int[][] ans = null;
-		/////// add your code below ///////
-
-		///////////////////////////////////
+        if (_map == null) return null;
+        int w = _map.length;
+        int h = _map[0].length;
+		ans = new int[w][h];
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                ans[x][y] = _map[x][y];
+            }
+        }
 		return ans;
 	}
+
 	@Override
-	/////// add your code below ///////
-	public int getWidth() {return 0;}
+	public int getWidth() {return _map.length;}
+
 	@Override
-	/////// add your code below ///////
-	public int getHeight() {return 0;}
-	@Override
-	/////// add your code below ///////
-	public int getPixel(int x, int y) { return 0;}
-	@Override
-	/////// add your code below ///////
+	public int getHeight() {
+        if (_map == null || _map.length == 0) return 0;
+        return _map[0].length;}
+
+    @Override
+	public int getPixel(int x, int y) {
+        if (x < 0 || y < 0 || x >= _map.length || y >= _map[0].length) {
+            throw new IndexOutOfBoundsException("Coordinate ("+ x + "," + y + ") out of bounds");
+        }
+        return _map[x][y];
+    }
+
+    @Override
 	public int getPixel(Pixel2D p) {
+        if (p == null) throw new IllegalArgumentException("Pixel cannot be null");
 		return this.getPixel(p.getX(),p.getY());
 	}
+
 	@Override
-	/////// add your code below ///////
-	public void setPixel(int x, int y, int v) {;}
+	public void setPixel(int x, int y, int v) {
+        if (x < 0 || y < 0 || x >= _map.length || y >= _map[0].length) {
+            throw new IndexOutOfBoundsException("Coordinate ("+ x + "," + y + ") out of bounds");
+        }
+        _map[x][y] = v;
+    }
+
 	@Override
-	/////// add your code below ///////
 	public void setPixel(Pixel2D p, int v) {
-		;
-	}
+        if (p == null) throw new IllegalArgumentException("Pixel cannot be null");
+        int x = p.getX();
+        int y = p.getY();
+        if (x < 0 || y < 0 || x >= _map.length || y >= _map[0].length) {
+            throw new IndexOutOfBoundsException("Coordinate ("+ x + "," + y + ") out of bounds");
+        }
+        _map[x][y] = v;
+    }
+
 	@Override
 	/** 
 	 * Fills this map with the new color (new_v) starting from p.
