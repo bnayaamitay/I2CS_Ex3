@@ -27,12 +27,19 @@ public class Game implements PacmanGame {
     public static final int CHERRY = 4;
     public static final int UP=1, RIGHT=2, DOWN=3, LEFT=4, STAY=0;
 
+    /**
+     * Initializes a new instance of the Game class.
+     */
     public Game() {
         _ghosts = new ArrayList<>();
         _ghostStartingPositions = new ArrayList<>();
         _rand = new Random();
     }
 
+    /**
+     * Initializes the game state using a map string, level settings, and player stats.
+     * Parses the board to place Pacman, ghosts, food, and cherries.
+     */
     @Override
     public String init(int level, String mapStr, boolean cyclic, long seed, double time, int score, int lives) {
         this._score = score;
@@ -80,6 +87,9 @@ public class Game implements PacmanGame {
         return "Initialized";
     }
 
+    /**
+     * Spawns the ghosts at their starting positions based on the requested count.
+     */
     public void setDesiredGhosts(int numGhosts) {
         _ghosts.clear();
         if (_ghostStartingPositions.isEmpty()) return;
@@ -89,6 +99,10 @@ public class Game implements PacmanGame {
         }
     }
 
+    /**
+     * Processes a single game tick, moving Pacman and ghosts,
+     * and checking for win/loss conditions.
+     */
     @Override
     public String move(int dir) {
         if (_status != PLAY) return "Not Playing";
@@ -103,6 +117,9 @@ public class Game implements PacmanGame {
         return "Move Done";
     }
 
+    /**
+     * Updates Pacman's position and handles collisions with food or cherries.
+     */
     private void movePacman(int dir) {
         if (dir == STAY) return;
         Pixel2D next = getNextPos(_pacman.getPos(), dir);
@@ -122,6 +139,10 @@ public class Game implements PacmanGame {
         }
     }
 
+    /**
+     * Logic for ghost behavior including AI movement types (BFS, Smart, Random)
+     * and collision detection with Pacman.
+     */
     private void moveGhosts() {
         long timeSinceStart = System.currentTimeMillis() - _levelStartTime;
         boolean waitTimeOver = timeSinceStart > 5000;
@@ -165,10 +186,16 @@ public class Game implements PacmanGame {
         }
     }
 
+    /**
+     * Returns the remaining time Pacman is in "Power-up" mode.
+     */
     public long getEatableTime() {
         return _eatableTimer;
     }
 
+    /**
+     * Checks if a ghost is currently inside the central ghost house area.
+     */
     private boolean isInGhostHouse(Ghost g) {
         int centerX = _map.getWidth() / 2;
         int centerY = _map.getHeight() / 2;
@@ -176,6 +203,10 @@ public class Game implements PacmanGame {
         return g.getPixelPos().distance2D(center) < 6;
     }
 
+    /**
+     * Uses a Breadth-First Search algorithm to find the next move
+     * on the shortest path to a target.
+     */
     private int getBFSDir(Ghost g, Pixel2D target) {
         Pixel2D[] path = _map.shortestPath(g.getPixelPos(), target, WALL);
         if (path != null && path.length > 1) {
@@ -190,6 +221,10 @@ public class Game implements PacmanGame {
         return -1;
     }
 
+    /**
+     * Calculates the best direction for a ghost based on a greedy
+     * approach toward Pacman's current position.
+     */
     private int getSmartDir(Ghost g) {
         Pixel2D gPos = g.getPixelPos();
         Pixel2D pPos = _pacman.getPos();
@@ -209,6 +244,9 @@ public class Game implements PacmanGame {
         return bestDir;
     }
 
+    /**
+     * Selects a random valid direction for ghost movement.
+     */
     private int getRandomDir(Ghost g) {
         Pixel2D gPos = g.getPixelPos();
         List<Integer> validMoves = new ArrayList<>();
@@ -220,6 +258,10 @@ public class Game implements PacmanGame {
         return validMoves.get(_rand.nextInt(validMoves.size()));
     }
 
+    /**
+     * Calculates the target coordinates based on a starting position and direction,
+     * with support for map wrapping (cyclic).
+     */
     private Pixel2D getNextPos(Pixel2D curr, int dir) {
         int x = curr.getX();
         int y = curr.getY();

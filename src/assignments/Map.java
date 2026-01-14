@@ -116,9 +116,21 @@ public class Map implements Map2D {
     }
 
 	@Override
-	/** 
-	 * Fills this map with the new color (new_v) starting from p.
-	 * https://en.wikipedia.org/wiki/Flood_fill
+	/**
+     *  Fills a connected area starting from point 'xy' with color 'new_v' (Flood Fill).
+     * a. Check if 'xy' is valid (inside map) and if its current color is different from 'new_v'. If not, return 0.
+     * b. Identify the original color at 'xy' as 'old_v'.
+     * c. Initialize a Queue for BFS and a counter 'ans' = 0.
+     * d. Add 'xy' to the queue, set its pixel to 'new_v', and increment 'ans'.
+     * e. While the queue is not empty:
+     * i.   Remove the front pixel 'current'.
+     * ii.  For each of the 4 adjacent neighbors (Up, Down, Left, Right):
+     * - If the map is in 'Cyclic' mode, calculate wrapped coordinates using modulo.
+     * - If the neighbor is inside the map and its color is 'old_v':
+     * - Change neighbor's color to 'new_v'.
+     * - Add the neighbor to the queue.
+     * - Increment 'ans'.
+     * f. Return the total count of changed pixels 'ans'.
 	 */
 	public int fill(Pixel2D xy, int new_v) {
 		int ans=0;
@@ -156,8 +168,25 @@ public class Map implements Map2D {
 
 	@Override
 	/**
-	 * BFS like shortest the computation based on iterative raster implementation of BFS, see:
-	 * https://en.wikipedia.org/wiki/Breadth-first_search
+     *  Finds the shortest path between p1 and p2 avoiding 'obsColor' using BFS.
+     * a. Preliminary checks: If points are outside, return null. If p1 equals p2, return array with p1.
+     * b. If p1 or p2 are obstacles, return null.
+     * c. Create a 2D 'distances' matrix initialized with -1.
+     * d. Set distances[p1] = 0 and add p1 to a Queue.
+     * e. BFS Phase (Map distances):
+     * i.   While queue is not empty and p2 is not found:
+     * - Get 'current' pixel from queue.
+     * - For each neighbor (handling cyclic wrap if enabled):
+     * - If neighbor is not an obstacle and distance is -1:
+     * - Set distance[neighbor] = distance[current] + 1.
+     * - Add neighbor to queue.
+     * f. Backtracking Phase (Reconstruct Path):
+     * i.   If p2 was never reached, return null.
+     * ii.  Create an array 'ans' of size (distance[p2] + 1).
+     * iii. Starting from currentBack = p2, work backwards from index 'dist' to 0:
+     * - Find a neighbor whose distance is exactly (current distance - 1).
+     * - Add that neighbor to the array and move to it.
+     * g. Return the 'ans' array.
 	 */
 	public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
         Pixel2D[] ans = null;
@@ -256,6 +285,19 @@ public class Map implements Map2D {
     }
 
 	@Override
+    /**
+     * Generates a distance map where each pixel contains its shortest distance from 'start'.
+     * a. If 'start' is invalid or an obstacle, return null.
+     * b. Initialize a new Map 'ans' of the same dimensions filled with -1.
+     * c. Set the distance of 'start' in 'ans' to 0 and add 'start' to a Queue.
+     * d. While the queue is not empty:
+     * i.   Get 'current' pixel and its distance 'currentDist'.
+     * ii.  For each neighbor (handling cyclic wrap if enabled):
+     * - If neighbor is valid, not an obstacle, and its distance in 'ans' is -1:
+     * - Set ans[neighbor] = currentDist + 1.
+     * - Add neighbor to the queue.
+     * e. Return the resulting Map 'ans'.
+     */
 	public Map2D allDistance(Pixel2D start, int obsColor) {
         Map2D ans = null;
         if (!isInside(start) || getPixel(start) == obsColor) {

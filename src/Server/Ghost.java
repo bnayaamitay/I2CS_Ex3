@@ -6,7 +6,7 @@ public class Ghost implements GhostCL {
     private int _type;
     private int _id;
     private double _speed;
-    private double _eatableTime; // זמן שנשאר להיות כחולה
+    private double _eatableTime;
 
     public Ghost(Pixel2D pos, int type, int id, double speed) {
         this._pos = new Index2D(pos.getX(), pos.getY());

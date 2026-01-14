@@ -6,11 +6,32 @@ public class Algo implements PacManAlgo {
     private Pixel2D _currentTarget = null;
     private int _lastDir = 0;
 
+    /**
+     * Returns the name/info of the algorithm.
+     */
     @Override
     public String getInfo() {
-        return "PACMAN ALGO - 7S POWER 1S BUFFER";
+        return "PACMAN SMART ALGO";
     }
 
+    /**
+     * Main logic loop for Pacman movement.
+     * * PSEUDOCODE:
+     * 1. Check if the 'Enter' key was pressed to toggle between Manual and Auto modes.
+     * 2. If in Manual Mode: Fetch direction from ManualAlgo and apply the axis/direction fix.
+     * 3. If in Auto Mode:
+     * a. Initialize the game board and a navigation map with cyclic (wrap-around) support.
+     * b. Parse Pacman's current coordinate from the game state.
+     * c. Identify ghosts and determine if Pacman is "Powered Up" (edible timer > 1s).
+     * d. Block the Ghost House entrance to prevent Pacman from getting trapped inside.
+     * e. If NOT powered up: Treat ghost positions and their immediate neighbors as walls in the distance map.
+     * f. Calculate distances from Pacman to all reachable points using BFS.
+     * g. If blocking ghosts makes all food unreachable, fallback to a map where ghosts are not treated as walls.
+     * h. Safety Check: If a ghost is within 3 steps, prioritize the 'bestEscapeDir' logic.
+     * i. Hunting Logic: If powered up, prioritize moving toward the nearest edible ghost outside the house.
+     * j. Targeting Logic: If the current target is gone or reached, find the nearest food or cherry.
+     * k. Pathfinding: Use BFS to find the shortest path to the target and return the direction of the first step.
+     */
     @Override
     public int move(PacmanGame game) {
         Character cmd = MyMain.getCMD();
@@ -97,14 +118,20 @@ public class Algo implements PacManAlgo {
         return Game.STAY;
     }
 
-    private boolean isGhostAtPos(GhostCL[] ghosts, Pixel2D pos) {
+    /**
+     * Checks if any ghost is currently located at the specified position.
+     */
+    public boolean isGhostAtPos(GhostCL[] ghosts, Pixel2D pos) {
         for (GhostCL g : ghosts) {
             if (getPos(g.getPos(0).toString()).equals(pos)) return true;
         }
         return false;
     }
 
-    private Pixel2D getNearestThreat(GhostCL[] ghosts, Map2D dists, int threshold) {
+    /**
+     * Finds the closest ghost within a specific distance threshold.
+     */
+    public Pixel2D getNearestThreat(GhostCL[] ghosts, Map2D dists, int threshold) {
         Pixel2D nearest = null;
         int minD = Integer.MAX_VALUE;
         for (GhostCL g : ghosts) {
@@ -118,18 +145,27 @@ public class Algo implements PacManAlgo {
         return nearest;
     }
 
-    private void blockNeighbors(Map map, Pixel2D p, int w, int h, int wall) {
+    /**
+     * Marks the four adjacent neighbors of a pixel as walls in the navigation map.
+     */
+    public void blockNeighbors(Map map, Pixel2D p, int w, int h, int wall) {
         int[] dx = {1, -1, 0, 0}, dy = {0, 0, 1, -1};
         for (int i = 0; i < 4; i++) {
             map.setPixel((p.getX() + dx[i] + w) % w, (p.getY() + dy[i] + h) % h, wall);
         }
     }
 
-    private boolean isInGhostHouse(int x, int y, int w, int h) {
+    /**
+     * Determines if the given coordinates fall within the ghost spawn area (Ghost House).
+     */
+    public boolean isInGhostHouse(int x, int y, int w, int h) {
         return x >= w/2-3 && x <= w/2+3 && y >= h/2-2 && y <= h/2+2;
     }
 
-    private Pixel2D findNearestTarget(int[][] board, Map2D dists) {
+    /**
+     * Scans the board to find the closest reachable Food or Cherry item.
+     */
+    public Pixel2D findNearestTarget(int[][] board, Map2D dists) {
         int min = Integer.MAX_VALUE;
         Pixel2D best = null;
         for (int x = 0; x < board.length; x++) {
@@ -146,7 +182,10 @@ public class Algo implements PacManAlgo {
         return best;
     }
 
-    private int bestEscapeDir(Pixel2D pacman, Pixel2D ghost, Map map) {
+    /**
+     * Determines the safest direction to move by maximizing the distance to a specific ghost.
+     */
+    public int bestEscapeDir(Pixel2D pacman, Pixel2D ghost, Map map) {
         int bestDir = Game.STAY;
         double maxDist = -1;
         int[] dirs = {Game.UP, Game.DOWN, Game.LEFT, Game.RIGHT};
@@ -163,7 +202,10 @@ public class Algo implements PacManAlgo {
         return bestDir;
     }
 
-    private Pixel2D getNextPos(Pixel2D p, int d, Map map) {
+    /**
+     * Calculates the resulting position when moving in a specific direction, including cyclic wrap-around.
+     */
+    public Pixel2D getNextPos(Pixel2D p, int d, Map map) {
         int x = p.getX(), y = p.getY();
         if (d == Game.UP) y++;
         if (d == Game.DOWN) y--;
@@ -172,7 +214,10 @@ public class Algo implements PacManAlgo {
         return new Index2D((x + map.getWidth()) % map.getWidth(), (y + map.getHeight()) % map.getHeight());
     }
 
-    private int getDirection(Pixel2D curr, Pixel2D next, int w, int h) {
+    /**
+     * Maps the movement between two adjacent pixels into a Game direction constant (UP, DOWN, LEFT, RIGHT).
+     */
+    public int getDirection(Pixel2D curr, Pixel2D next, int w, int h) {
         int dx = next.getX() - curr.getX();
         int dy = next.getY() - curr.getY();
         if (Math.abs(dx) > 1) dx = (dx > 0) ? -1 : 1;
@@ -184,12 +229,18 @@ public class Algo implements PacManAlgo {
         return Game.STAY;
     }
 
-    private Pixel2D getPos(String s) {
+    /**
+     * Parses a coordinate string formatted as "x,y,z" into a Pixel2D object.
+     */
+    public Pixel2D getPos(String s) {
         String[] t = s.split(",");
         return new Index2D(Integer.parseInt(t[0]), Integer.parseInt(t[1]));
     }
 
-    private Pixel2D findNearestEdibleGhost(GhostCL[] ghosts, Map2D dists, int w, int h) {
+    /**
+     * Identifies the closest edible ghost that is currently outside the ghost house.
+     */
+    public Pixel2D findNearestEdibleGhost(GhostCL[] ghosts, Map2D dists, int w, int h) {
         Pixel2D best = null;
         int min = Integer.MAX_VALUE;
         for (GhostCL g : ghosts) {
@@ -204,7 +255,10 @@ public class Algo implements PacManAlgo {
         return best;
     }
 
-    private boolean isAnyFoodReachable(int[][] board, Map2D dists) {
+    /**
+     * Checks if there is any food item on the board currently reachable by Pacman.
+     */
+    public boolean isAnyFoodReachable(int[][] board, Map2D dists) {
         for (int x = 0; x < board.length; x++) {
             for (int y = 0; y < board[0].length; y++) {
                 if ((board[x][y] == Game.FOOD || board[x][y] == Game.CHERRY) && dists.getPixel(x, y) != -1) return true;
@@ -213,11 +267,17 @@ public class Algo implements PacManAlgo {
         return false;
     }
 
+    /**
+     * Returns true if the algorithm is currently in Automatic mode.
+     */
     public boolean isAuto() {
         return !_manualMode;
     }
 
-    private int fixManualDir(int dir) {
+    /**
+     * Compensates for axis/control differences by remapping manual input directions.
+     */
+    public int fixManualDir(int dir) {
         if (dir == 1) return 3;
         if (dir == 3) return 1;
         if (dir == 4) return 2;

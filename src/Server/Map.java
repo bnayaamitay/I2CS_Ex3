@@ -9,43 +9,43 @@ import java.util.Queue;
  *
  */
 public class Map implements Map2D {
-	private int[][] _map;
-	private boolean _cyclicFlag = true;
-	
-	/**
-	 * Constructs a w*h 2D raster map with an init value v.
-	 * @param w
-	 * @param h
-	 * @param v
-	 */
-	public Map(int w, int h, int v) {init(w,h, v);}
-	/**
-	 * Constructs a square map (size*size).
-	 * @param size
-	 */
-	public Map(int size) {this(size,size, 0);}
-	
-	/**
-	 * Constructs a map from a given 2D array.
-	 * @param data
-	 */
-	public Map(int[][] data) {
-		init(data);
-	}
-	@Override
-	public void init(int w, int h, int v) {
+    private int[][] _map;
+    private boolean _cyclicFlag = true;
+
+    /**
+     * Constructs a w*h 2D raster map with an init value v.
+     * @param w
+     * @param h
+     * @param v
+     */
+    public Map(int w, int h, int v) {init(w,h, v);}
+    /**
+     * Constructs a square map (size*size).
+     * @param size
+     */
+    public Map(int size) {this(size,size, 0);}
+
+    /**
+     * Constructs a map from a given 2D array.
+     * @param data
+     */
+    public Map(int[][] data) {
+        init(data);
+    }
+    @Override
+    public void init(int w, int h, int v) {
         if (w <= 0 || h <= 0) {
             throw new IllegalArgumentException("Invalid width or height");
         }
-		this._map = new int[w][h];
+        this._map = new int[w][h];
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 this._map[x][y] = v;
             }
         }
-	}
-	@Override
-	public void init(int[][] arr) {
+    }
+    @Override
+    public void init(int[][] arr) {
         if (arr == null || arr.length == 0 || arr[0].length == 0 ) {
             throw new IllegalArgumentException("Array is null or empty");
         }
@@ -57,33 +57,33 @@ public class Map implements Map2D {
                 this._map[x][y] = arr[x][y];
             }
         }
-	}
+    }
 
-	@Override
-	public int[][] getMap() {
-		int[][] ans = null;
+    @Override
+    public int[][] getMap() {
+        int[][] ans = null;
         if (_map == null) return null;
         int w = _map.length;
         int h = _map[0].length;
-		ans = new int[w][h];
+        ans = new int[w][h];
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 ans[x][y] = _map[x][y];
             }
         }
-		return ans;
-	}
+        return ans;
+    }
 
-	@Override
-	public int getWidth() {return _map.length;}
+    @Override
+    public int getWidth() {return _map.length;}
 
-	@Override
-	public int getHeight() {
+    @Override
+    public int getHeight() {
         if (_map == null || _map.length == 0) return 0;
         return _map[0].length;}
 
     @Override
-	public int getPixel(int x, int y) {
+    public int getPixel(int x, int y) {
         if (x < 0 || y < 0 || x >= _map.length || y >= _map[0].length) {
             throw new IndexOutOfBoundsException("Coordinate ("+ x + "," + y + ") out of bounds");
         }
@@ -91,21 +91,21 @@ public class Map implements Map2D {
     }
 
     @Override
-	public int getPixel(Pixel2D p) {
+    public int getPixel(Pixel2D p) {
         if (p == null) throw new IllegalArgumentException("Pixel cannot be null");
-		return this.getPixel(p.getX(),p.getY());
-	}
+        return this.getPixel(p.getX(),p.getY());
+    }
 
-	@Override
-	public void setPixel(int x, int y, int v) {
+    @Override
+    public void setPixel(int x, int y, int v) {
         if (x < 0 || y < 0 || x >= _map.length || y >= _map[0].length) {
             throw new IndexOutOfBoundsException("Coordinate ("+ x + "," + y + ") out of bounds");
         }
         _map[x][y] = v;
     }
 
-	@Override
-	public void setPixel(Pixel2D p, int v) {
+    @Override
+    public void setPixel(Pixel2D p, int v) {
         if (p == null) throw new IllegalArgumentException("Pixel cannot be null");
         int x = p.getX();
         int y = p.getY();
@@ -115,13 +115,25 @@ public class Map implements Map2D {
         _map[x][y] = v;
     }
 
-	@Override
-	/** 
-	 * Fills this map with the new color (new_v) starting from p.
-	 * https://en.wikipedia.org/wiki/Flood_fill
-	 */
-	public int fill(Pixel2D xy, int new_v) {
-		int ans=0;
+    @Override
+    /**
+     *  Fills a connected area starting from point 'xy' with color 'new_v' (Flood Fill).
+     * a. Check if 'xy' is valid (inside map) and if its current color is different from 'new_v'. If not, return 0.
+     * b. Identify the original color at 'xy' as 'old_v'.
+     * c. Initialize a Queue for BFS and a counter 'ans' = 0.
+     * d. Add 'xy' to the queue, set its pixel to 'new_v', and increment 'ans'.
+     * e. While the queue is not empty:
+     * i.   Remove the front pixel 'current'.
+     * ii.  For each of the 4 adjacent neighbors (Up, Down, Left, Right):
+     * - If the map is in 'Cyclic' mode, calculate wrapped coordinates using modulo.
+     * - If the neighbor is inside the map and its color is 'old_v':
+     * - Change neighbor's color to 'new_v'.
+     * - Add the neighbor to the queue.
+     * - Increment 'ans'.
+     * f. Return the total count of changed pixels 'ans'.
+     */
+    public int fill(Pixel2D xy, int new_v) {
+        int ans=0;
         if (!isInside(xy) || getPixel(xy.getX(), xy.getY()) == new_v) {
             return ans;
         }
@@ -152,14 +164,31 @@ public class Map implements Map2D {
             }
         }
         return ans;
-	}
+    }
 
-	@Override
-	/**
-	 * BFS like shortest the computation based on iterative raster implementation of BFS, see:
-	 * https://en.wikipedia.org/wiki/Breadth-first_search
-	 */
-	public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
+    @Override
+    /**
+     *  Finds the shortest path between p1 and p2 avoiding 'obsColor' using BFS.
+     * a. Preliminary checks: If points are outside, return null. If p1 equals p2, return array with p1.
+     * b. If p1 or p2 are obstacles, return null.
+     * c. Create a 2D 'distances' matrix initialized with -1.
+     * d. Set distances[p1] = 0 and add p1 to a Queue.
+     * e. BFS Phase (Map distances):
+     * i.   While queue is not empty and p2 is not found:
+     * - Get 'current' pixel from queue.
+     * - For each neighbor (handling cyclic wrap if enabled):
+     * - If neighbor is not an obstacle and distance is -1:
+     * - Set distance[neighbor] = distance[current] + 1.
+     * - Add neighbor to queue.
+     * f. Backtracking Phase (Reconstruct Path):
+     * i.   If p2 was never reached, return null.
+     * ii.  Create an array 'ans' of size (distance[p2] + 1).
+     * iii. Starting from currentBack = p2, work backwards from index 'dist' to 0:
+     * - Find a neighbor whose distance is exactly (current distance - 1).
+     * - Add that neighbor to the array and move to it.
+     * g. Return the 'ans' array.
+     */
+    public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
         Pixel2D[] ans = null;
         if (!isInside(p1) || !isInside(p2)) {
             return ans;
@@ -236,27 +265,40 @@ public class Map implements Map2D {
         return ans;
     }
 
-	@Override
-	public boolean isInside(Pixel2D p) {
+    @Override
+    public boolean isInside(Pixel2D p) {
         if (p == null) return false;
         if (p.getX() < 0 || p.getY() < 0 || p.getX() >= _map.length || p.getY() >= _map[0].length) {
             return false;
         }
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean isCyclic() {
-		return _cyclicFlag;
-	}
+    @Override
+    public boolean isCyclic() {
+        return _cyclicFlag;
+    }
 
-	@Override
-	public void setCyclic(boolean cy) {
+    @Override
+    public void setCyclic(boolean cy) {
         this._cyclicFlag = cy;
     }
 
-	@Override
-	public Map2D allDistance(Pixel2D start, int obsColor) {
+    @Override
+    /**
+     * Generates a distance map where each pixel contains its shortest distance from 'start'.
+     * a. If 'start' is invalid or an obstacle, return null.
+     * b. Initialize a new Map 'ans' of the same dimensions filled with -1.
+     * c. Set the distance of 'start' in 'ans' to 0 and add 'start' to a Queue.
+     * d. While the queue is not empty:
+     * i.   Get 'current' pixel and its distance 'currentDist'.
+     * ii.  For each neighbor (handling cyclic wrap if enabled):
+     * - If neighbor is valid, not an obstacle, and its distance in 'ans' is -1:
+     * - Set ans[neighbor] = currentDist + 1.
+     * - Add neighbor to the queue.
+     * e. Return the resulting Map 'ans'.
+     */
+    public Map2D allDistance(Pixel2D start, int obsColor) {
         Map2D ans = null;
         if (!isInside(start) || getPixel(start) == obsColor) {
             return ans;
