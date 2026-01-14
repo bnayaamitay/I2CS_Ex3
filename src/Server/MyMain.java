@@ -54,7 +54,7 @@ public class MyMain {
             while (true) {
                 StdDraw.clear(java.awt.Color.BLACK);
                 try {
-                    StdDraw.picture(w / 2.0, h / 2.0, "src/Server/Image/menu.png", w * 0.8, h * 1.0);
+                    StdDraw.picture(w / 2.0, h / 2.0, "Server/Image/menu.png", w * 0.8, h * 1.0);
                 } catch (Exception e) {
                     StdDraw.setPenColor(java.awt.Color.WHITE);
                     StdDraw.text(w / 2.0, h / 2.0, "PRESS SPACE TO START");
