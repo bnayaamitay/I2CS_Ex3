@@ -107,9 +107,8 @@ To run the original game (Level 4, DT 200) using my smart algorithm:
 3. **Tip:** Press **ENTER** during the game to switch between Auto and Manual mode.
 
 ### 🕹️ 2. My Custom Pac-Man Game (Full Server)
-To run the full game server that I built:
-1. Open the folder **`Ex3_3`** from the submitted ZIP.
-2. Double-click the **`Ex3_3.jar`** file.
+1. Locate the **`Ex3_3.jar`** file.
+2. Double-click the **`Ex3_3.jar`** file to launch.
 3. Use your keyboard to play and test the server logic.
 
 </div>
