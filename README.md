@@ -12,12 +12,6 @@
 
 ---
 
-### 📺 Project Video Demo
-**Watch the video to see the algorithm explanation and gameplay:**
-
-[**Watch Video on YouTube/Drive**](INSERT_YOUR_LINK_HERE)
-
----
 
 <br>
 
@@ -27,7 +21,7 @@ It uses **BFS** to calculate distances and makes decisions based on this logic:
 
 <br>
 
-### 🛠️ How it Works 
+### 🛠️ How it Works
 1. **Virtual Walls (Ghost House)**: The algorithm marks the ghost respawn area as "walls" <br>
    to prevent Pac-Man from getting trapped inside.
 2. **Ghost Safety Zones**: It creates "virtual walls" around dangerous ghosts. <br>
@@ -49,8 +43,6 @@ It uses **BFS** to calculate distances and makes decisions based on this logic:
 
 <br>
 
-<br>
-
 <p align="center">
   <img src="Assets/pacman_demo1.png" width="350" alt="Algorithm in action">
   <br>
@@ -59,7 +51,17 @@ It uses **BFS** to calculate distances and makes decisions based on this logic:
 
 ---
 
-## 💻 My Custom Game Server 
+
+### 📺 Algorithm Logic Explanation
+**Watch the video for a detailed breakdown of the smart logic and BFS implementation:**
+
+[**Watch Algorithm Explanation Video**](https://drive.google.com/file/d/1ro-xy_gnvQXoALJ7-5SzhiC7qcPxX5x6/view?usp=sharing)
+
+
+
+---
+
+## 💻 My Custom Game Server
 Beyond the algorithm, I implemented a full **Pac-Man Game Server** from scratch. <br>
 The server manages the entire game logic independently:
 
@@ -69,23 +71,14 @@ The server manages the entire game logic independently:
 * **Custom GUI**: A visual interface built with `StdDraw` that renders the <br>
   game state in real-time with custom images and animations.
 * **Logic Validation**: Includes **JUnit tests** to verify the integrity of the <br>
-  server's mechanics, such as movement constraints and score updates.
-
-
-<br>
-
-<p align="center">
-  <img src="Assets/pacman_demo2.png" width="350" alt="Server Gameplay">
-  <br>
-  <i>Figure 2: My custom game server running with full GUI and logic</i>
-</p>
+  server's mechanics.
 
 <br>
 
 <p align="center">
   <video src="https://github.com/user-attachments/assets/c53cedfd-df3c-4fd1-82de-0246addab855" width="600" autoplay loop muted playsinline></video>
   <br>
-  <i>Game demo video - Level 1 </i>
+  <i>Figure 2: Game demo - Server implementation and GUI in action</i>
 </p>
 
 <br>
@@ -96,10 +89,11 @@ The server manages the entire game logic independently:
 * **`src/`**: The root folder for all Java source code, divided into:
     * **`assignments/`**: Core logic for the assignment, including **`Ex3Algo`** and **`Ex3Main`**.
     * **`Server/`**: Full implementation of the custom game server, including entities, GUI, and server logic.
-    * **`Images/`**: Graphical assets (icons, sprites) used by the GUI to render the characters and map.
 * **`libs/`**: External libraries required for the project (e.g., `StdDraw`).
-* **`Assets/`**: Media files for this documentation, including the demo video and screenshots.
+* **`Images/`**: Graphical assets (icons, sprites) used by the GUI to render the characters and map.
+* **`Assets/`**: Media files for this documentation, including the demo videos and screenshots.
 * **`Ex3_docs/`**: Detailed documentation of the smart algorithm and logic, including movement strategies and JUnit tests.
+
 <br>
 
 ---
