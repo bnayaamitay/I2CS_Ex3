@@ -36,10 +36,6 @@ public class Game implements PacmanGame {
         _rand = new Random();
     }
 
-    /**
-     * Initializes the game state using a map string, level settings, and player stats.
-     * Parses the board to place Pacman, ghosts, food, and cherries.
-     */
     @Override
     public String init(int level, String mapStr, boolean cyclic, long seed, double time, int score, int lives) {
         this._score = score;
@@ -99,10 +95,6 @@ public class Game implements PacmanGame {
         }
     }
 
-    /**
-     * Processes a single game tick, moving Pacman and ghosts,
-     * and checking for win/loss conditions.
-     */
     @Override
     public String move(int dir) {
         if (_status != PLAY) return "Not Playing";
@@ -278,8 +270,8 @@ public class Game implements PacmanGame {
         return new Index2D(x, y);
     }
 
-    public int getLives() { return _lives; }
-    public int getScore() { return _score; }
+    @Override public int getLives() { return _lives; }
+    @Override public int getScore() { return _score; }
     @Override public int[][] getGame(int id) {
         int[][] b = new int[_map.getWidth()][_map.getHeight()];
         for(int x=0;x<_map.getWidth();x++) for(int y=0;y<_map.getHeight();y++) b[x][y]=_map.getPixel(x,y);
