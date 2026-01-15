@@ -54,7 +54,7 @@ public class MyMain {
             while (true) {
                 StdDraw.clear(java.awt.Color.BLACK);
                 try {
-                    StdDraw.picture(w / 2.0, h / 2.0, "Server/Image/menu.png", w * 0.8, h * 1.0);
+                    StdDraw.picture(w / 2.0, h / 2.0, "Server/Images/menu.png", w * 0.8, h * 1.0);
                 } catch (Exception e) {
                     StdDraw.setPenColor(java.awt.Color.WHITE);
                     StdDraw.text(w / 2.0, h / 2.0, "PRESS SPACE TO START");
@@ -80,7 +80,7 @@ public class MyMain {
                 gui.draw(game, lastDir, ((Algo)algo).isAuto());
 
                 try {
-                    StdDraw.picture(w / 2.0, h / 2.0, "Server/Image/start" + level + ".png", w * 0.5, h * 0.5);
+                    StdDraw.picture(w / 2.0, h / 2.0, "Server/Images/start" + level + ".png", w * 0.5, h * 0.5);
                 } catch (Exception e) {
                     StdDraw.setPenColor(java.awt.Color.YELLOW);
                     StdDraw.text(w / 2.0, h / 2.0, "LEVEL " + level + " - PRESS SPACE");

@@ -44,7 +44,7 @@ public class GameGUI {
         if (isStartMenu) {
             StdDraw.clear(Color.BLACK);
             try {
-                StdDraw.picture(w / 2.0, h / 2.0, "Server/Image/menu.png", w * 0.8, h * 1.0);
+                StdDraw.picture(w / 2.0, h / 2.0, "Server/Images/menu.png", w * 0.8, h * 1.0);
             } catch (Exception e) {}
         } else {
             draw(game, 0, isAuto);
@@ -108,7 +108,7 @@ public class GameGUI {
         StdDraw.setPenColor(new Color(0, 0, 0, 180));
         StdDraw.filledRectangle(w / 2.0, h / 2.0, w / 2.0, h / 2.0);
         try {
-            StdDraw.picture(w / 2.0, h / 2.0, "Server/Image/gameover.png", w * 0.8, h * 0.4);
+            StdDraw.picture(w / 2.0, h / 2.0, "Server/Images/gameover.png", w * 0.8, h * 0.4);
         } catch (Exception e) {
             StdDraw.setPenColor(Color.WHITE);
             StdDraw.setFont(new Font("Monospaced", Font.BOLD, 50));
@@ -140,7 +140,7 @@ public class GameGUI {
                     StdDraw.filledCircle(x + 0.5, y + 0.5, 0.12);
                 } else if (pixel == 4) {
                     try {
-                        StdDraw.picture(x + 0.5, y + 0.5, "Server/Image/cherry.png", 0.8, 0.8);
+                        StdDraw.picture(x + 0.5, y + 0.5, "Server/Images/cherry.png", 0.8, 0.8);
                     } catch (Exception e) {}
                 }
             }
@@ -153,7 +153,7 @@ public class GameGUI {
         double py = Double.parseDouble(pCoords[1]);
         double angle = (dir == 1) ? 90 : (dir == 3) ? 270 : (dir == 4) ? 180 : 0;
         try {
-            StdDraw.picture(px + 0.5, py + 0.5, "Server/Image/p1.png", 0.8, 0.8, angle);
+            StdDraw.picture(px + 0.5, py + 0.5, "Server/Images/p1.png", 0.8, 0.8, angle);
         } catch (Exception e) {
             StdDraw.setPenColor(Color.YELLOW);
             StdDraw.filledCircle(px + 0.5, py + 0.5, 0.4);
@@ -170,7 +170,7 @@ public class GameGUI {
             double gy = Double.parseDouble(gCoords[1]);
             String img = (timeLeft > 1000 || (timeLeft > 0 && (System.currentTimeMillis() / 200) % 2 == 0)) ? "sg.png" : "g" + (i % 4) + ".png";
             try {
-                StdDraw.picture(gx + 0.5, gy + 0.5, "Server/Image/" + img, 0.8, 0.8);
+                StdDraw.picture(gx + 0.5, gy + 0.5, "Server/Images/" + img, 0.8, 0.8);
             } catch (Exception e) {
                 StdDraw.setPenColor(timeLeft > 0 ? Color.BLUE : Color.RED);
                 StdDraw.filledCircle(gx + 0.5, gy + 0.5, 0.4);
