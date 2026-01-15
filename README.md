@@ -83,9 +83,9 @@ The server manages the entire game logic independently:
 <br>
 
 <p align="center">
-  <video src="Assets/Demo_Video.mp4" width="600" autoplay loop muted playsinline></video>
+  <video src="https://github.com/user-attachments/assets/c53cedfd-df3c-4fd1-82de-0246addab855" width="600" autoplay loop muted playsinline></video>
   <br>
-  <i>Smart Algorithm Demo - Automatic Level Clearing</i>
+  <i>Game demo video - Level </i>
 </p>
 
 <br>
