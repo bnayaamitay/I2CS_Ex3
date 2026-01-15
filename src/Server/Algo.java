@@ -121,7 +121,7 @@ public class Algo implements PacManAlgo {
     /**
      * Checks if any ghost is currently located at the specified position.
      */
-    public boolean isGhostAtPos(GhostCL[] ghosts, Pixel2D pos) {
+    private boolean isGhostAtPos(GhostCL[] ghosts, Pixel2D pos) {
         for (GhostCL g : ghosts) {
             if (getPos(g.getPos(0).toString()).equals(pos)) return true;
         }
@@ -131,7 +131,7 @@ public class Algo implements PacManAlgo {
     /**
      * Finds the closest ghost within a specific distance threshold.
      */
-    public Pixel2D getNearestThreat(GhostCL[] ghosts, Map2D dists, int threshold) {
+    private Pixel2D getNearestThreat(GhostCL[] ghosts, Map2D dists, int threshold) {
         Pixel2D nearest = null;
         int minD = Integer.MAX_VALUE;
         for (GhostCL g : ghosts) {
@@ -165,7 +165,7 @@ public class Algo implements PacManAlgo {
     /**
      * Scans the board to find the closest reachable Food or Cherry item.
      */
-    public Pixel2D findNearestTarget(int[][] board, Map2D dists) {
+    private Pixel2D findNearestTarget(int[][] board, Map2D dists) {
         int min = Integer.MAX_VALUE;
         Pixel2D best = null;
         for (int x = 0; x < board.length; x++) {
@@ -185,7 +185,7 @@ public class Algo implements PacManAlgo {
     /**
      * Determines the safest direction to move by maximizing the distance to a specific ghost.
      */
-    public int bestEscapeDir(Pixel2D pacman, Pixel2D ghost, Map map) {
+    private int bestEscapeDir(Pixel2D pacman, Pixel2D ghost, Map map) {
         int bestDir = Game.STAY;
         double maxDist = -1;
         int[] dirs = {Game.UP, Game.DOWN, Game.LEFT, Game.RIGHT};
@@ -240,7 +240,7 @@ public class Algo implements PacManAlgo {
     /**
      * Identifies the closest edible ghost that is currently outside the ghost house.
      */
-    public Pixel2D findNearestEdibleGhost(GhostCL[] ghosts, Map2D dists, int w, int h) {
+    private Pixel2D findNearestEdibleGhost(GhostCL[] ghosts, Map2D dists, int w, int h) {
         Pixel2D best = null;
         int min = Integer.MAX_VALUE;
         for (GhostCL g : ghosts) {

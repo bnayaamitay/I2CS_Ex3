@@ -49,6 +49,14 @@ It uses **BFS** to calculate distances and makes decisions based on this logic:
 
 <br>
 
+<br>
+
+<p align="center">
+  <img src="Assets/pacman_demo1.png" width="350" alt="Algorithm in action">
+  <br>
+  <i>Figure 1: My algorithm navigating the board </i>
+</p>
+
 ---
 
 ## 💻 My Custom Game Server 
@@ -63,18 +71,11 @@ The server manages the entire game logic independently:
 * **Logic Validation**: Includes **JUnit tests** to verify the integrity of the <br>
   server's mechanics, such as movement constraints and score updates.
 
-<br>
-
-<p align="center">
-  <img src="pacman_demo1.png" width="350" alt="Algorithm in action">
-  <br>
-  <i>Figure 1: My algorithm navigating the board (Professor's Game)</i>
-</p>
 
 <br>
 
 <p align="center">
-  <img src="pacman_demo2.png" width="350" alt="Server Gameplay">
+  <img src="Assets/pacman_demo2.png" width="350" alt="Server Gameplay">
   <br>
   <i>Figure 2: My custom game server running with full GUI and logic</i>
 </p>
@@ -87,10 +88,10 @@ The server manages the entire game logic independently:
 * **`src/`**: The root folder for all Java source code, divided into:
     * **`assignments/`**: Core logic for the assignment, including **`Ex3Algo`** and **`Ex3Main`**.
     * **`Server/`**: Full implementation of the custom game server, including entities, GUI, and server logic.
+    * **`Images/`**: Graphical assets (icons, sprites) used by the GUI to render the characters and map.
 * **`libs/`**: External libraries required for the project (e.g., `StdDraw`).
-* **`Images/`**: Graphical assets (icons, sprites) used by the GUI to render the characters and map.
-* **`Ex3_docs/`**: Detailed documentation of the Pac-Man smart algorithm and logic <br> implemented in Ex3Algo.java, including movement strategies and decision priorities.
-
+* **`Assets/`**: Media files for this documentation, including the demo video and screenshots.
+* **`Ex3_docs/`**: Detailed documentation of the smart algorithm and logic, including movement strategies and JUnit tests.
 <br>
 
 ---
