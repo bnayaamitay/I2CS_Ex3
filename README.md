@@ -90,7 +90,7 @@ The server manages the entire game logic independently:
     * **`assignments/`**: Core logic for the assignment, including **`Ex3Algo`** and **`Ex3Main`**.
     * **`Server/`**: Full implementation of the custom game server, including entities, GUI, and server logic.
 * **`libs/`**: External libraries required for the project (e.g., `StdDraw`).
-* **`Images/`**: Graphical assets (icons, sprites) used by the GUI to render the characters and map.
+* **`icons/`**: Graphical assets (icons, sprites) required by the JAR files to render characters and maps.
 * **`Assets/`**: Media files for this documentation, including the demo videos and screenshots.
 * **`Ex3_docs/`**: Detailed documentation of the smart algorithm and logic, including movement strategies and JUnit tests.
 
